@@ -1,0 +1,19 @@
+ru:
+  dry_validation:
+    rules:
+      password_confirmation: Подтверждение пароля
+      password: Пароль
+      passwords: Пароли
+      username: Логин
+    errors:
+      user:
+        password_length: должен быть больше или равняться %{length} символам
+        rules:
+          username:
+            filled?: не может быть пустым
+          password:
+            filled?: не может быть пустым
+          password_confirmation:
+            filled?: не может быть пустым
+          passwords:
+            different: должны совпадать

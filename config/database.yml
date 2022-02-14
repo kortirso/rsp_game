@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 20 } %>
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: rsp_game_development
+
+test:
+  <<: *default
+  database: rsp_game_test
+
+production:
+  <<: *default
+  database: rsp_game_production
+  username: rsp_game
+  password: <%= ENV['RSP_GAME_DATABASE_PASSWORD'] %>
