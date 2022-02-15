@@ -10,15 +10,15 @@ module Authentication
   private
 
   def current_user
-    Current.user ||= User.find_by(uuid: extract_uuid.fetch('user_uuid', '')) if token
+    Current.user ||= Users::Session.find_by(uuid: user_session_uuid)&.user if token
   end
 
   def token
     @token ||= session[Rails.configuration.session_name]
   end
 
-  def extract_uuid
-    JwtService.decode(token)
+  def user_session_uuid
+    JwtService.decode(token).fetch('user_session_uuid', '')
   rescue JWT::DecodeError
     nil
   end

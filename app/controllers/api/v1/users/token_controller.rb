@@ -8,7 +8,7 @@ module Api
 
         def create
           user = auto_auth
-          render json: { token: JwtService.encode(user_uuid: user.uuid) }, status: :ok
+          render json: { token: JwtService.encode(user_session_uuid: user.sessions.create.uuid) }, status: :ok
         rescue AuthFailure => e
           render json: { errors: e.message }, status: :unauthorized
         end

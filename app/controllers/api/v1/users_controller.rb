@@ -10,7 +10,7 @@ module Api
         if service_call.success?
           render json: {
             message: 'User is created',
-            token:   JwtService.encode(user_uuid: service_call.result.uuid)
+            token:   JwtService.encode(user_session_uuid: service_call.result.sessions.create.uuid)
           }, status: :created
         else
           render json: { errors: service_call.errors }, status: :unprocessable_entity

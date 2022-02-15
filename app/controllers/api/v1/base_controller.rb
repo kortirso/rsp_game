@@ -36,19 +36,19 @@ module Api
       end
 
       def user_auth(access_token)
-        check_token(access_token)
-        find_user
+        user_session_uuid = check_token(access_token)
+        find_user(user_session_uuid)
         Current.user = @user
       end
 
       def check_token(access_token)
-        @user_uuid = JwtService.decode(access_token).fetch('user_uuid', '')
+        JwtService.decode(access_token).fetch('user_session_uuid', '')
       rescue StandardError
         raise AuthFailure, 'Signature verification error'
       end
 
-      def find_user
-        @user = User.find_by(uuid: @user_uuid)
+      def find_user(user_session_uuid)
+        @user = Users::Session.find_by(uuid: user_session_uuid)&.user
         raise AuthFailure, 'Authorization error' if @user.nil?
       end
 

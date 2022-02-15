@@ -16,7 +16,8 @@ module Users
     private
 
     def success_create_response(service_call)
-      session[Rails.configuration.session_name] = JwtService.encode(user_uuid: service_call.result.uuid)
+      session[Rails.configuration.session_name] =
+        JwtService.encode(user_session_uuid: service_call.result.sessions.create.uuid)
       redirect_to after_registration_path, notice: t('controllers.users.registrations.success_create')
     end
 

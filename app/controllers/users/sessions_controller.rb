@@ -9,7 +9,7 @@ module Users
     def new; end
 
     def create
-      session[Rails.configuration.session_name] = JwtService.encode(user_uuid: @user.uuid)
+      session[Rails.configuration.session_name] = JwtService.encode(user_session_uuid: @user.sessions.create.uuid)
       redirect_to after_login_path, notice: t('controllers.users.sessions.success_create')
     end
 
