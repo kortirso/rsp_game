@@ -14,9 +14,9 @@ describe Api::V1::Users::TokenController do
       end
     end
 
-    context 'for email params' do
+    context 'for database params' do
       context 'for invalid params' do
-        before { post '/api/v1/users/token.json', params: { username: '1@gmail.com', password: '1234567890' } }
+        before { post '/api/v1/users/token.json', params: { username: 'username', password: '1234567890' } }
 
         it 'returns status 401' do
           expect(response.status).to eq 401

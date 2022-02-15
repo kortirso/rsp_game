@@ -9,13 +9,15 @@ module Api
 
       skip_before_action :current_user
 
+      rescue_from ActionController::ParameterMissing, with: :parameter_missing
+
       private
 
       def authenticate
         auto_auth
       rescue AuthFailure => e
         Current.user = nil
-        render json: { errors: e.message }, status: :unauthorized
+        render json: { errors: [e.message] }, status: :unauthorized
       end
 
       def auto_auth
@@ -48,6 +50,10 @@ module Api
       def find_user
         @user = User.find_by(uuid: @user_uuid)
         raise AuthFailure, 'Authorization error' if @user.nil?
+      end
+
+      def parameter_missing
+        render json: { errors: ['Required parameter is missing'] }, status: :unprocessable_entity
       end
     end
   end
